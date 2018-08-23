@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <h1>获取设备列表</h1>
+    <table id="deviceList">
+
+    </table>
+</body>
+<script>
+    var deviceList = document.getElementById("deviceList");
+    getLocalDevices();
+    function getLocalDevices () {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+            console.log("enumerateDevices() not supported.");
+            return;
+        }
+        navigator.mediaDevices.enumerateDevices()
+                .then(function(devices) {
+                    console.log(devices)
+                    var str =
+                            "<tr>" +
+                                "<td>deviceId</td>" +
+                                "<td>groupId</td>" +
+                                "<td>kind</td>" +
+                                "<td>label</td>" +
+                            "</tr>";
+                    for(var i=0;i<devices.length;i++){
+                        str +=
+                                "<tr>"+
+                                    "<td>"+devices[i].deviceId+"</td>"+
+                                    "<td>"+devices[i].groupId+"</td>"+
+                                    "<td>"+devices[i].kind+"</td>"+
+                                    "<td>"+devices[i].label+"</td>"
+                                "</tr>";
+                        deviceList.innerHTML = str;
+                    }
+                })
+                .catch(function(err) {
+                    console.log(err.name + ": " + error.message);
+                });
+    }
+</script>
+</html>
